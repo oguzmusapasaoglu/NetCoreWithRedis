@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ServiceStack.Redis" Version="5.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\NetCoreWithRedis.Core.Helper\NetCoreWithRedis.Core.Helper.csproj" />
+    <ProjectReference Include="..\NetCoreWithRedis.Core.Log\NetCoreWithRedis.Core.Log.csproj" />
+  </ItemGroup>
+
+</Project>
