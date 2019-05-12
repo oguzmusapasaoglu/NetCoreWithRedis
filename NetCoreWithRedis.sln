@@ -5,6 +5,10 @@ VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis", "NetCoreWithRedis\NetCoreWithRedis.csproj", "{60307344-F83E-41DB-A25D-CAF7F655589F}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{902870B5-92FC-4A19-A38B-A6838D8D883A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Core.Log", "NetCoreWithRedis.Core.Log\NetCoreWithRedis.Core.Log.csproj", "{ACC1C2D4-180A-4CB4-9564-47C538074D3F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,9 +19,16 @@ Global
 		{60307344-F83E-41DB-A25D-CAF7F655589F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{60307344-F83E-41DB-A25D-CAF7F655589F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{60307344-F83E-41DB-A25D-CAF7F655589F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ACC1C2D4-180A-4CB4-9564-47C538074D3F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ACC1C2D4-180A-4CB4-9564-47C538074D3F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ACC1C2D4-180A-4CB4-9564-47C538074D3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ACC1C2D4-180A-4CB4-9564-47C538074D3F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{ACC1C2D4-180A-4CB4-9564-47C538074D3F} = {902870B5-92FC-4A19-A38B-A6838D8D883A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {553E7830-06CF-405E-A884-3BBFBF4F048B}
