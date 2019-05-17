@@ -14,6 +14,7 @@
     <ProjectReference Include="..\NetCoreWithRedis.Core.DbCore\NetCoreWithRedis.Core.DbCore.csproj" />
     <ProjectReference Include="..\NetCoreWithRedis.Core.Helper\NetCoreWithRedis.Core.Helper.csproj" />
     <ProjectReference Include="..\NetCoreWithRedis.Core.Log\NetCoreWithRedis.Core.Log.csproj" />
+    <ProjectReference Include="..\NetCoreWithRedis.Domain.Authentication\NetCoreWithRedis.Domain.Authentication.csproj" />
   </ItemGroup>
 
 </Project>

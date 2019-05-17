@@ -3,7 +3,6 @@ using System.Runtime.Serialization;
 
 namespace NetCoreWithRedis.Shared.Base.DTO
 {
-    [DataContract]
     public class BaseFilterDto
     {
         [Required]
@@ -11,7 +10,7 @@ namespace NetCoreWithRedis.Shared.Base.DTO
         public int PageNumber { get; set; }
 
         [Required]
-        [DataMember(Name = "RowPerPage")]
-        public int RowsPerPage { get; set; }
+        [DataMember(Name = "PageSize")]
+        public int PageSize { get; set; }
     }
 }

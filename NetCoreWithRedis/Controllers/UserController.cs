@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWithRedis.Core.Helper.ExceptionHelper;
 using NetCoreWithRedis.Core.Log.Interface;
@@ -35,7 +31,7 @@ namespace NetCoreWithRedis.Controllers
             try
             {
                 var dto = request.RData.FromJson<UsersDto>();
-                var result = Manager.CreateOrUpdate(dto, request.RUserId);
+                var result = Manager.CreateOrUpdate(dto, request.RUserId, request.TokenKey);
                 response.Data = result.ToJson();
                 response.ResponseStatus = ResponseStatusType.OK.ToBool();
             }
@@ -60,13 +56,13 @@ namespace NetCoreWithRedis.Controllers
             }
             Logger.AddResponseLog((response.ResponseStatus == ResponseStatusType.OK.ToBool()) ?
                 LogTypeEnum.Info :
-                LogTypeEnum.Error, 
-                "UserController.CreateOrUpdate", 
-                request.RUserId, 
-                response.ErrorMessage, 
-                request.ToJson(), 
-                RequestDate, 
-                response.ToJson(), 
+                LogTypeEnum.Error,
+                "UserController.CreateOrUpdate",
+                request.RUserId,
+                response.ErrorMessage,
+                request.ToJson(),
+                RequestDate,
+                response.ToJson(),
                 DateTimeHelper.Now);
             return response;
         }
@@ -79,7 +75,7 @@ namespace NetCoreWithRedis.Controllers
             try
             {
                 var dto = request.RData.FromJson<UsersDto>();
-                var result = Manager.GetSingle(dto.Id, request.RUserId);
+                var result = Manager.GetSingle(dto.Id, request.RUserId, request.TokenKey);
                 response.Data = result.ToJson();
                 response.ResponseStatus = ResponseStatusType.OK.ToBool();
             }
@@ -115,7 +111,6 @@ namespace NetCoreWithRedis.Controllers
             return response;
         }
 
-
         [HttpPost]
         public BackofficeResponse GetLoginInfo(BackofficeRequest request)
         {
@@ -124,7 +119,7 @@ namespace NetCoreWithRedis.Controllers
             try
             {
                 var dto = request.RData.FromJson<UserLoginRequestDto>();
-                var result = Manager.GetSingle(dto, request.RUserId);
+                var result = Manager.GetSingle(dto);
                 response.Data = result.ToJson();
                 response.ResponseStatus = ResponseStatusType.OK.ToBool();
             }
@@ -168,7 +163,7 @@ namespace NetCoreWithRedis.Controllers
             try
             {
                 var dto = request.RData.FromJson<UserFilterRequestDto>();
-                var result = Manager.GetAll(dto, request.RUserId);
+                var result = Manager.GetAll(dto, request.RUserId, request.TokenKey);
                 response.Data = result.ToJson();
                 response.ResponseStatus = ResponseStatusType.OK.ToBool();
             }

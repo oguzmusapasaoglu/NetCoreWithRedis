@@ -3,7 +3,7 @@ using System.Runtime.Serialization;
 
 namespace NetCoreWithRedis.Shared.DTO.Request
 {
-    [DataContract]
+    [System.Serializable]
     public class UserFilterRequestDto : BaseFilterDto
     {
         [DataMember(Name = "Id")]

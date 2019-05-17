@@ -11,6 +11,6 @@
         public static string IsInUse(string FieldName) => string.Format("Can not insert {0} field. Because it is in use!", FieldName);
         public static string DataNotFound(string FieldName) => string.Format("{0} not found", FieldName);
         public static string DataNotMatch(string FieldName) => string.Format("Does not match {0}", FieldName);
-        public static string UnauthorizedAccess(string parmUserName) => string.Format("Unauthorized Access by User Name : {0}", parmUserName);
+        public static string UnauthorizedAccess(int parmUserId) => string.Format("Unauthorized Access by User Id : {0}", parmUserId);
     }
 }

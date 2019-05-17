@@ -2,7 +2,7 @@
 
 namespace NetCoreWithRedis.Shared.DTO.Request
 {
-    [DataContract]
+    [System.Serializable]
     public class UserLoginRequestDto
     {
         [DataMember(Name = "UserName")]

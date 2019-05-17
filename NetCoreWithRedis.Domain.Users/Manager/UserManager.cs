@@ -4,11 +4,13 @@ using NetCoreWithRedis.Core.DbCore;
 using NetCoreWithRedis.Core.Helper.CommonHelper;
 using NetCoreWithRedis.Core.Helper.ExceptionHelper;
 using NetCoreWithRedis.Core.Log.Interface;
+using NetCoreWithRedis.Domain.Authentication.Interface;
 using NetCoreWithRedis.Domain.Users.Entity;
 using NetCoreWithRedis.Domain.Users.Interface;
 using NetCoreWithRedis.Shared.DTO;
 using NetCoreWithRedis.Shared.DTO.Request;
 using NetCoreWithRedis.Shared.DTO.Response;
+using NetCoreWithRedis.Shared.DTO.Response.Base;
 using ServiceStack;
 using System;
 using System.Collections.Generic;
@@ -21,16 +23,24 @@ namespace NetCoreWithRedis.Domain.Users.Manager
         private ILogService Logger;
         private IRedisManager CacheManager;
         private IDbFactory Db;
-        public UserManager(ILogService logger, IRedisManager cache, IDbFactory db)
+        private IAuthenticationManager Authentication;
+
+        public UserManager(
+            ILogService logger,
+            IRedisManager cache,
+            IDbFactory db,
+            IAuthenticationManager authentication)
         {
             Logger = logger;
             CacheManager = cache;
             Db = db;
+            Authentication = authentication;
         }
-        public UsersDto CreateOrUpdate(UsersDto dto, int RequestUserId)
+        public UsersDto CreateOrUpdate(UsersDto dto, int RequestUserId, string TokenKey)
         {
             try
             {
+                CheckAuthentication(RequestUserId, TokenKey);
                 #region Empty Control
                 if (dto.UserName.IsNullOrEmpty())
                     throw new RequestWarningException(ErrorTypeEnum.WarningException, ExceptionCodeHelper.CannotEmptyField, ExceptionMessageHelper.CannotEmptyField("User Name"));
@@ -83,10 +93,11 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                 throw new KnownException(ErrorTypeEnum.UnexpectedExeption, ex.Message, ex);
             }
         }
-        public IEnumerable<UserFilterResponseDto> GetAll(UserFilterRequestDto request, int RequestUserId)
+        public PagingResultDto<IEnumerable<UsersDto>> GetAll(UserFilterRequestDto request, int RequestUserId, string TokenKey)
         {
             try
             {
+                CheckAuthentication(RequestUserId, TokenKey);
                 var data = CacheManager.GetAll<UserEntity>().AsQueryable();
                 var predicate = PredicateBuilderHelper.True<UserEntity>();
                 if (request.Id.HasValue)
@@ -100,10 +111,9 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                 if (!request.EMail.IsNullOrEmpty())
                     predicate = predicate.And(q => q.EMail == request.EMail);
                 var result = data.Where(predicate).AsEnumerable();
-                var retundata = result.ConvertTo<IEnumerable<UserFilterResponseDto>>();
-                retundata.Each(q => q.TotalRowCount = result.Count());
-                retundata.Skip(request.RowsPerPage * request.PageNumber).Take(request.RowsPerPage);
-                return retundata;
+                var userdata = result.ConvertTo<IEnumerable<UsersDto>>();
+                var ReturnData = PageingHelper.GetPagingResult(userdata, request.PageNumber, request.PageSize);
+                return ReturnData;
             }
             catch (KnownException ex)
             {
@@ -115,10 +125,11 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                 throw new KnownException(ErrorTypeEnum.UnexpectedExeption, ex.Message, ex);
             }
         }
-        public UsersDto GetSingle(int id, int RequestUserId)
+        public UsersDto GetSingle(int id, int RequestUserId, string TokenKey)
         {
             try
             {
+                CheckAuthentication(RequestUserId, TokenKey);
                 var data = CacheManager.GetAll<UserEntity>();
                 var result = data.FirstOrDefault(q => q.Id == id);
                 return result.ConvertTo<UsersDto>();
@@ -133,14 +144,20 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                 throw new KnownException(ErrorTypeEnum.UnexpectedExeption, ex.Message, ex);
             }
         }
-        public UsersDto GetSingle(UserLoginRequestDto request, int RequestUserId)
+        public UsersDto GetSingle(UserLoginRequestDto request)
         {
             try
             {
+                var ReturnData = new UserLoginResponseDto();
                 var data = CacheManager.GetAll<UserEntity>();
                 var EncryptPass = PasswordHelper.EncryptData(request.Password);
                 var result = data.FirstOrDefault(q => q.UserName == request.UserName && q.Password == EncryptPass);
-                return result.ConvertTo<UsersDto>();
+                if (result != null)
+                {
+                    ReturnData = result.ConvertTo<UserLoginResponseDto>();
+                    ReturnData.TokenKey = Authentication.CreateTokenAuthentication(result.Id);
+                }
+                return ReturnData;
             }
             catch (KnownException ex)
             {
@@ -148,8 +165,17 @@ namespace NetCoreWithRedis.Domain.Users.Manager
             }
             catch (Exception ex)
             {
-                Logger.AddLog(LogTypeEnum.Error, "UserManager.GetSingle", RequestUserId, ex.Message, request.ToJson(), ex);
+                Logger.AddLog(LogTypeEnum.Error, "UserManager.GetSingle", null, ex.Message, request.ToJson(), ex);
                 throw new KnownException(ErrorTypeEnum.UnexpectedExeption, ex.Message, ex);
+            }
+        }
+
+        private void CheckAuthentication(int RUserId, string TKey)
+        {
+            if (!Authentication.CheckTokenAuthentication(RUserId, TKey))
+            {
+                Logger.AddLog(LogTypeEnum.Warn, "UserManager.CheckAuthentication", RUserId, ExceptionMessageHelper.UnauthorizedAccess(RUserId), string.Empty);
+                throw new KnownException(ErrorTypeEnum.AuthorizeException, ExceptionMessageHelper.UnauthorizedAccess(RUserId), string.Empty);
             }
         }
     }
