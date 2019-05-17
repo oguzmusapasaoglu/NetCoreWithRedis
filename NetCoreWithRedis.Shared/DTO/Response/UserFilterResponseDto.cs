@@ -1,5 +1,4 @@
 ﻿using NetCoreWithRedis.Shared.DTO.Response.Base;
-using System;
 using System.Runtime.Serialization;
 
 namespace NetCoreWithRedis.Shared.DTO.Response
@@ -14,13 +13,7 @@ namespace NetCoreWithRedis.Shared.DTO.Response
         public int ActivationStatusProp { get; set; }
 
         [DataMember(Name = "ActivationStatus")]
-        public string ActivationStatus{ get; set; }
-
-        [DataMember(Name = "AuthorizationGroupName")]
-        public string AuthorizationGroupName { get; set; }
-        
-        [DataMember(Name = "AuthorizationGroupId")]
-        public int AuthorizationGroupId { get; set; }
+        public string ActivationStatus { get; set; }
 
         [DataMember(Name = "UserName")]
         public string UserName { get; set; }
@@ -34,24 +27,6 @@ namespace NetCoreWithRedis.Shared.DTO.Response
         [DataMember(Name = "Email")]
         public string Email { get; set; }
 
-        [DataMember(Name = "BirthDate")]
-        public DateTime? BirthDate { get; set; }
-
-        [DataMember(Name = "ConfirmStatusProp")]
-        public int ConfirmStatusProp { get; set; }
-
-        [DataMember(Name = "ConfirmStatus")]
-        public string ConfirmStatus { get; set; }
-
-        [DataMember(Name = "FirstPhoneNumber")]
-        public string FirstPhoneNumber { get; set; }
-
-        [DataMember(Name = "SecondPhoneNumber")]
-        public string SecondPhoneNumber { get; set; }
-
-        [DataMember(Name = "FailedLoginCount")]
-        public int FailedLoginCount { get; set; }
-
         [DataMember(Name = "CreatedUserId")]
         public int CreatedUserId { get; set; }
 
@@ -63,11 +38,5 @@ namespace NetCoreWithRedis.Shared.DTO.Response
 
         [DataMember(Name = "UpdateDate")]
         public long? UpdateDate { get; set; }
-
-        [DataMember(Name = "UsersTypeProp")]
-        public int UsersTypeProp { get; set; }
-
-        [DataMember(Name = "UsersType")]
-        public string UsersType { get; set; }
     }
 }

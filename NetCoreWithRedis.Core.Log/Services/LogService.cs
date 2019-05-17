@@ -15,7 +15,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         private readonly string LogConnStr = @"Data Source=OLORINSCOMPUTER\SQLEXPRESS;Initial Catalog=DominosLog;Integrated Security=True";
 
         public void AddLog(
-            string parmUniqRequestId,
             LogTypeEnum parmLogType,
             string parmLogSenderFunc,
             int? parmLogUser = null,
@@ -25,7 +24,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         {
             var dto = new LogEntity
             {
-                UniqRequestId = parmUniqRequestId,
                 LogUser = parmLogUser,
                 LogType = (int)parmLogType,
                 LogData = parmLogData,
@@ -36,8 +34,20 @@ namespace NetCoreWithRedis.Core.Log.Services
             };
             InsertLog(dto);
         }
+        public void AddLog(LogTypeEnum parmLogType, string parmLogSenderFunc, int? parmLogUser = null, string parmLogMessage = null, Exception parmException = null)
+        {
+            var dto = new LogEntity
+            {
+                LogUser = parmLogUser,
+                LogType = (int)parmLogType,
+                LogDate = DateTimeHelper.Now,
+                LogMessage = parmLogMessage,
+                LogSender = parmLogSenderFunc,
+                LogExceptionMessage = (parmException != null) ? parmException.StackTrace : string.Empty
+            };
+            InsertLog(dto);
+        }
         public void AddResponseLog(
-            string parmUniqRequestId,
             LogTypeEnum parmLogType,
             string parmLogSenderFunc,
             int? parmLogUser,
@@ -51,7 +61,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         {
             var dto = new LogEntity
             {
-                UniqRequestId = parmUniqRequestId,
                 LogUser = parmLogUser,
                 LogType = (int)parmLogType,
                 RequestData = parmRequestData,
@@ -66,7 +75,6 @@ namespace NetCoreWithRedis.Core.Log.Services
             InsertLog(dto);
         }
         public void AddLog(
-            string parmUniqRequestId,
             LogTypeEnum parmLogType,
             string parmLogSenderFunc,
             int? parmLogUser = null,
@@ -77,7 +85,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         {
             var dto = new LogEntity
             {
-                UniqRequestId = parmUniqRequestId,
                 LogUser = parmLogUser,
                 LogType = (int)parmLogType,
                 LogData = parmLogData.ToString(),
@@ -92,7 +99,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         {
             var dto = new LogEntity
             {
-                UniqRequestId = string.Empty,
                 LogType = (int)parmLogType,
                 LogDate = DateTimeHelper.Now,
                 LogMessage = parmLogMessage,
@@ -105,7 +111,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         {
             var dto = new LogEntity
             {
-                UniqRequestId = string.Empty,
                 LogType = (int)parmLogType,
                 LogData = parmLogData.ToString(),
                 LogDate = DateTimeHelper.Now,
@@ -119,7 +124,6 @@ namespace NetCoreWithRedis.Core.Log.Services
         {
             var dto = new LogEntity
             {
-                UniqRequestId = string.Empty,
                 LogType = (int)parmLogType,
                 LogData = parmLogData,
                 LogDate = DateTimeHelper.Now,

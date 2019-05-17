@@ -35,6 +35,13 @@ public static class ToolKit
             ? true
             : long.TryParse(value.ToString(), out ParmOut);
     }
+    public static double ToDouble(this object value)
+    {
+        double ParmOut;
+        return double.TryParse(value.ToString(), out ParmOut)
+            ? ParmOut
+            : 0;
+    }
     public static bool IsNullOrEmpty(this object value) => (value == null || value.ToString().Trim() == string.Empty);
     public static bool IsNullOrLessOrEqToZero(this object value) => (value == null || value.ToLong() <= 0);
     public static bool ToBool(this ResponseStatusType value) => (value == ResponseStatusType.ERROR) ? false : true;

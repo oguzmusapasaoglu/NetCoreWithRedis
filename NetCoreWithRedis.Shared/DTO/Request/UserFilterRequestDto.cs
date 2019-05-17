@@ -20,8 +20,5 @@ namespace NetCoreWithRedis.Shared.DTO.Request
 
         [DataMember(Name = "EMail")]
         public string EMail { get; set; }
-
-        [DataMember(Name = "AuthorizationGroupId")]
-        public int? AuthorizationGroupId { get; set; }
     }
 }

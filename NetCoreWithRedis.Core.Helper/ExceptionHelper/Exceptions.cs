@@ -6,7 +6,7 @@ namespace NetCoreWithRedis.Core.Helper.ExceptionHelper
     {
         public string ExceptionMessage { get; set; }
         public ErrorTypeEnum ErrorTypeProp { get; set; }
-        public Exception exception { get; set; }
+        public Exception ExceptionProp { get; set; }
         public KnownException(string message)
             : base(message)
         {
@@ -17,33 +17,30 @@ namespace NetCoreWithRedis.Core.Helper.ExceptionHelper
             ExceptionMessage = exceptionMessage;
             ErrorTypeProp = exceptionType;
         }
-        public KnownException(ErrorTypeEnum exceptionType, string message, Exception innerException)
+        public KnownException(ErrorTypeEnum exceptionType, string message, Exception exception)
         {
             ExceptionMessage = message;
             ErrorTypeProp = exceptionType;
-            exception = innerException;
+            exception = exception;
         }
     }
     public class RequestWarningException : KnownException
     {
-        public RequestWarningException(ErrorTypeEnum exceptionType, string exceptionCode, string message) : base(message)
+        public RequestWarningException(ErrorTypeEnum errorTypeProp, string exceptionCode, string message) : base(message)
         {
-            ExceptionType = exceptionType;
+            ErrorTypeProp = errorTypeProp;
             ExceptionCode = exceptionCode;
-            ExMessage = message;
+            ExceptionMessage = message;
         }
-        public RequestWarningException(ErrorTypeEnum exceptionType, string exceptionCode, string message, Exception innerException) : base(message)
+        public RequestWarningException(ErrorTypeEnum errorTypeProp, string exceptionCode, string message, Exception exception) : base(message)
         {
-            ExceptionType = exceptionType;
-            ExMessage = message;
+            ErrorTypeProp = errorTypeProp;
+            ExceptionMessage = message;
             ExceptionCode = exceptionCode;
-            InnerException = innerException;
+            ExceptionProp = exception;
         }
 
         public string ExceptionCode { get; set; }
-        public string ExMessage { get; set; }
-        public new Exception InnerException { get; set; }
-        public ErrorTypeEnum ExceptionType { get; set; }
     }
     public enum ErrorTypeEnum
     {

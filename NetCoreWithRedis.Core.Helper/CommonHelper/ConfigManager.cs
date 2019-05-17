@@ -6,9 +6,4 @@ namespace NetCoreWithRedis.Core.Helper.CommonHelper
     {
         public static string GetData(string Key) => ConfigurationManager.AppSettings.Get(Key);
     }
-    public class ConfigKey
-    {
-        public const string TokenTime = "TokenTime";
-        public const string ConnStr = "TokenTime";
-    }
 }

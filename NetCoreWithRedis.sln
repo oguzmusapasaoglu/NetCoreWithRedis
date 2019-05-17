@@ -3,19 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.572
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis", "NetCoreWithRedis\NetCoreWithRedis.csproj", "{60307344-F83E-41DB-A25D-CAF7F655589F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis", "NetCoreWithRedis\NetCoreWithRedis.csproj", "{60307344-F83E-41DB-A25D-CAF7F655589F}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Core", "Core", "{902870B5-92FC-4A19-A38B-A6838D8D883A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Core.Log", "NetCoreWithRedis.Core.Log\NetCoreWithRedis.Core.Log.csproj", "{ACC1C2D4-180A-4CB4-9564-47C538074D3F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Core.CacheManager", "NetCoreWithRedis.Core.CacheManager\NetCoreWithRedis.Core.CacheManager.csproj", "{7B07CA05-EA39-4600-9184-D086B7E3DC7C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Core.CacheManager", "NetCoreWithRedis.Core.CacheManager\NetCoreWithRedis.Core.CacheManager.csproj", "{7B07CA05-EA39-4600-9184-D086B7E3DC7C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Core.Helper", "NetCoreWithRedis.Core.Helper\NetCoreWithRedis.Core.Helper.csproj", "{889F655F-911A-452C-837F-1F6C9E8C7913}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Core.Helper", "NetCoreWithRedis.Core.Helper\NetCoreWithRedis.Core.Helper.csproj", "{889F655F-911A-452C-837F-1F6C9E8C7913}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Core.DbCore", "NetCoreWithRedis.Core.DbCore\NetCoreWithRedis.Core.DbCore.csproj", "{5319A218-B19E-40E8-BB6D-B7808263430E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Core.DbCore", "NetCoreWithRedis.Core.DbCore\NetCoreWithRedis.Core.DbCore.csproj", "{5319A218-B19E-40E8-BB6D-B7808263430E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Shared", "NetCoreWithRedis.Shared\NetCoreWithRedis.Shared.csproj", "{1E3C43ED-FF81-4F97-992A-D27B9EDFDB04}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Shared", "NetCoreWithRedis.Shared\NetCoreWithRedis.Shared.csproj", "{1E3C43ED-FF81-4F97-992A-D27B9EDFDB04}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{C2CCE1B2-5334-4634-8C4A-E68C735781AF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Domain.Users", "NetCoreWithRedis.Domain.Users\NetCoreWithRedis.Domain.Users.csproj", "{C35119CF-3F4C-46CD-918F-400C52017661}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Domain.Authentication", "NetCoreWithRedis.Domain.Authentication\NetCoreWithRedis.Domain.Authentication.csproj", "{16BF7D8B-C72A-4F17-B013-79D09FD7495F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -47,6 +53,14 @@ Global
 		{1E3C43ED-FF81-4F97-992A-D27B9EDFDB04}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E3C43ED-FF81-4F97-992A-D27B9EDFDB04}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E3C43ED-FF81-4F97-992A-D27B9EDFDB04}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C35119CF-3F4C-46CD-918F-400C52017661}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C35119CF-3F4C-46CD-918F-400C52017661}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C35119CF-3F4C-46CD-918F-400C52017661}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C35119CF-3F4C-46CD-918F-400C52017661}.Release|Any CPU.Build.0 = Release|Any CPU
+		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -56,6 +70,8 @@ Global
 		{7B07CA05-EA39-4600-9184-D086B7E3DC7C} = {902870B5-92FC-4A19-A38B-A6838D8D883A}
 		{889F655F-911A-452C-837F-1F6C9E8C7913} = {902870B5-92FC-4A19-A38B-A6838D8D883A}
 		{5319A218-B19E-40E8-BB6D-B7808263430E} = {902870B5-92FC-4A19-A38B-A6838D8D883A}
+		{C35119CF-3F4C-46CD-918F-400C52017661} = {C2CCE1B2-5334-4634-8C4A-E68C735781AF}
+		{16BF7D8B-C72A-4F17-B013-79D09FD7495F} = {C2CCE1B2-5334-4634-8C4A-E68C735781AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {553E7830-06CF-405E-A884-3BBFBF4F048B}

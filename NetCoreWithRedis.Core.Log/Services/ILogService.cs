@@ -7,7 +7,7 @@ namespace NetCoreWithRedis.Core.Log.Interface
 {
     public interface ILogService
     {
-        void AddResponseLog(string parmUniqRequestId,
+        void AddResponseLog(
             LogTypeEnum parmLogType,
             string parmLogSenderFunc,
             int? parmLogUser,
@@ -18,11 +18,12 @@ namespace NetCoreWithRedis.Core.Log.Interface
             long parmResponseDate,
             Exception parmException = null
          );
-        void AddLog(string UniqRequestId, LogTypeEnum parmLogType, string parmLogSenderFunc, int? parmLogUser = null, string parmLogMessage = null, string parmLogData = null, Exception parmException = null);
-        void AddLog(string UniqRequestId, LogTypeEnum parmLogType, string parmLogSenderFunc, int? parmLogUser = null, string parmLogMessage = null, StringBuilder parmLogData = null, Exception parmException = null);
+        void AddLog(LogTypeEnum parmLogType, string parmLogSenderFunc, int? parmLogUser = null, string parmLogMessage = null, string parmLogData = null, Exception parmException = null);
+        void AddLog(LogTypeEnum parmLogType, string parmLogSenderFunc, int? parmLogUser = null, string parmLogMessage = null, Exception parmException = null);
+        void AddLog(LogTypeEnum parmLogType, string parmLogSenderFunc, int? parmLogUser = null, string parmLogMessage = null, StringBuilder parmLogData = null, Exception parmException = null);
         IEnumerable<LogEntity> GetLog(RequestLogEntity data);
         void AddCacheLog(LogTypeEnum parmLogType, string parmLogSenderFunc, string parmLogMessage, Exception parmException);
-        void AddFattalLog(LogTypeEnum parmLogType, string parmLogSenderFunc, string parmLogMessage,  StringBuilder parmLogData, Exception ex);
+        void AddFattalLog(LogTypeEnum parmLogType, string parmLogSenderFunc, string parmLogMessage, StringBuilder parmLogData, Exception ex);
         void AddFattalLog(LogTypeEnum parmLogType, string parmLogSenderFunc, string parmLogMessage, string parmLogData, Exception ex);
     }
 }

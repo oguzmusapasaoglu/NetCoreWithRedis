@@ -6,7 +6,6 @@ namespace NetCoreWithRedis.Core.Log.Helper
     {
         [Key]
         public int LogId { get; set; }
-        public string UniqRequestId { get; set; }
         public int? LogUser { get; set; }
         public int LogType { get; set; }
         public long LogDate { get; set; }

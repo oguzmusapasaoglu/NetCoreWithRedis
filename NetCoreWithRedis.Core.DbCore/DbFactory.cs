@@ -2,6 +2,7 @@
 using NetCoreWithRedis.Core.Helper.CommonHelper;
 using NetCoreWithRedis.Core.Helper.ExceptionHelper;
 using NetCoreWithRedis.Core.Log.Interface;
+using NetCoreWithRedis.Shared.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -26,7 +27,7 @@ namespace NetCoreWithRedis.Core.DbCore
         {
             try
             {
-                var connection = new SqlConnection(ConfigManager.GetData(ConfigKey.ConnStr));
+                var connection = new SqlConnection(ConfigManager.GetData(ProjectConst.ConnStr));
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
 
@@ -138,14 +139,12 @@ namespace NetCoreWithRedis.Core.DbCore
             catch (SqlException ex)
             {
                 _logger.AddFattalLog(LogTypeEnum.Fattal, "DbFactory.GetData", ExceptionMessageHelper.UnexpectedDBError, query.QueryScript, ex);
-
                 _Transaction.Rollback();
                 throw new KnownException(ErrorTypeEnum.DbOperationException, ex.Message, ex);
             }
             catch (Exception e)
             {
                 _logger.AddFattalLog(LogTypeEnum.Fattal, "DbFactory.GetData", ExceptionMessageHelper.UnexpectedDBError, query.QueryScript, e);
-
                 _Transaction.Rollback();
                 throw new KnownException(ErrorTypeEnum.UnexpectedExeption, e.Message, e);
             }
