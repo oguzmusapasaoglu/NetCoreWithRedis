@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using NetCoreWithRedis.Core.Helper.ExceptionHelper;
-using NetCoreWithRedis.Core.Log.Interface;
+using NetCoreWithRedis.Core.Log.Services;
 using NetCoreWithRedis.Domain.Users.Interface;
 using NetCoreWithRedis.Shared.DTO;
 using NetCoreWithRedis.Shared.DTO.Request;
@@ -15,9 +15,9 @@ namespace NetCoreWithRedis.Controllers
     [ApiController]
     public class UserController : ControllerBase
     {
-        ILogService Logger;
+        ILogManager Logger;
         IUserManager Manager;
-        public UserController(IUserManager manager, ILogService logger)
+        public UserController(IUserManager manager, ILogManager logger)
         {
             Manager = manager;
             Logger = logger;
@@ -75,7 +75,7 @@ namespace NetCoreWithRedis.Controllers
             try
             {
                 var dto = request.RData.FromJson<UsersDto>();
-                var result = Manager.GetSingle(dto.Id, request.RUserId, request.TokenKey);
+                var result = Manager.GetSingle(dto.Id.Value, request.RUserId, request.TokenKey);
                 response.Data = result.ToJson();
                 response.ResponseStatus = ResponseStatusType.OK.ToBool();
             }

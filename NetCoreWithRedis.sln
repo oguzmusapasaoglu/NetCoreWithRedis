@@ -19,9 +19,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Shared", "
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Domain", "Domain", "{C2CCE1B2-5334-4634-8C4A-E68C735781AF}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Domain.Users", "NetCoreWithRedis.Domain.Users\NetCoreWithRedis.Domain.Users.csproj", "{C35119CF-3F4C-46CD-918F-400C52017661}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Domain.Users", "NetCoreWithRedis.Domain.Users\NetCoreWithRedis.Domain.Users.csproj", "{C35119CF-3F4C-46CD-918F-400C52017661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Domain.Authentication", "NetCoreWithRedis.Domain.Authentication\NetCoreWithRedis.Domain.Authentication.csproj", "{16BF7D8B-C72A-4F17-B013-79D09FD7495F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Domain.Authentication", "NetCoreWithRedis.Domain.Authentication\NetCoreWithRedis.Domain.Authentication.csproj", "{16BF7D8B-C72A-4F17-B013-79D09FD7495F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NetCoreWithRedis.Domain.Product", "NetCoreWithRedis.Domain.Product\NetCoreWithRedis.Domain.Product.csproj", "{D5F05F19-E82C-4541-8B9E-EC97C1FABA9A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NetCoreWithRedis.Domain.Customer", "NetCoreWithRedis.Domain.Customer\NetCoreWithRedis.Domain.Customer.csproj", "{42EB9D71-F9FA-4CBF-AD4A-1961BAC77582}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,6 +65,14 @@ Global
 		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16BF7D8B-C72A-4F17-B013-79D09FD7495F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5F05F19-E82C-4541-8B9E-EC97C1FABA9A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5F05F19-E82C-4541-8B9E-EC97C1FABA9A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5F05F19-E82C-4541-8B9E-EC97C1FABA9A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5F05F19-E82C-4541-8B9E-EC97C1FABA9A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{42EB9D71-F9FA-4CBF-AD4A-1961BAC77582}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{42EB9D71-F9FA-4CBF-AD4A-1961BAC77582}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{42EB9D71-F9FA-4CBF-AD4A-1961BAC77582}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{42EB9D71-F9FA-4CBF-AD4A-1961BAC77582}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +84,8 @@ Global
 		{5319A218-B19E-40E8-BB6D-B7808263430E} = {902870B5-92FC-4A19-A38B-A6838D8D883A}
 		{C35119CF-3F4C-46CD-918F-400C52017661} = {C2CCE1B2-5334-4634-8C4A-E68C735781AF}
 		{16BF7D8B-C72A-4F17-B013-79D09FD7495F} = {C2CCE1B2-5334-4634-8C4A-E68C735781AF}
+		{D5F05F19-E82C-4541-8B9E-EC97C1FABA9A} = {C2CCE1B2-5334-4634-8C4A-E68C735781AF}
+		{42EB9D71-F9FA-4CBF-AD4A-1961BAC77582} = {C2CCE1B2-5334-4634-8C4A-E68C735781AF}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {553E7830-06CF-405E-A884-3BBFBF4F048B}

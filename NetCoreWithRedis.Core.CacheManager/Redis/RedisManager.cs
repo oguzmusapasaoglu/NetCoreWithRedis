@@ -1,26 +1,21 @@
-﻿using NetCoreWithRedis.Core.Helper.ExceptionHelper;
-using NetCoreWithRedis.Core.Log.Interface;
+﻿using NetCoreWithRedis.Core.Helper.CommonHelper;
+using NetCoreWithRedis.Core.Helper.ExceptionHelper;
+using NetCoreWithRedis.Core.Log.Services;
+using NetCoreWithRedis.Shared.Helper;
 using ServiceStack.Redis;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 namespace NetCoreWithRedis.Core.CacheManager.Redis
 {
-    public class RedisManager : IRedisManager
+    public abstract class RedisManager
     {
         RedisClient client;
-        string RedisIp = "";// ConfigurationManager.AppSettings[ProjectConst.RedisIp];
-        int RedisPort = 0;// ConfigurationManager.AppSettings[ProjectConst.RedisPort].ToInt();
-        private ILogService Logger;
+        string RedisIp = ConfigManager.GetData(ConfigManagerConst.RedisIp);
+        int RedisPort = ConfigManager.GetData(ConfigManagerConst.RedisPort).ToInt();
 
-        public RedisManager(ILogService logService)
-        {
-            this.Logger = logService;
-        }
-
-        public IEnumerable<TData> GetAll<TData>()
+        public IEnumerable<TData> GetAllCachedData<TData>()
         {
             try
             {
@@ -30,11 +25,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.GetAll", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.GetAll", ex);
             }
         }
-        public void FillCache<TData>(IEnumerable<TData> entity)
+        public void FillCacheData<TData>(IEnumerable<TData> entity)
         {
             try
             {
@@ -46,11 +40,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.FillCache", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.FillCache", ex);
             }
         }
-        public void UpdateCache<TData>(TData entity)
+        public void UpdateCachedData<TData>(TData entity)
         {
             try
             {
@@ -59,11 +52,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.FillCache", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.FillCache", ex);
             }
         }
-        public void AddSingle<TData>(string cacheName, TData entity, DateTime expiredDate)
+        public void AddSingleCachedData<TData>(string cacheName, TData entity, DateTime expiredDate)
         {
             try
             {
@@ -72,11 +64,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.AddSingle", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.AddSingle", ex);
             }
         }
-        public TData GetSingleByName<TData>(string cacheName)
+        public TData GetSingleCachedDataByName<TData>(string cacheName)
         {
             try
             {
@@ -85,11 +76,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.cacheName", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.GetSingleByName", ex);
             }
         }
-        public TData GetSingleById<TData>(int Id)
+        public TData GetSingleCachedDataById<TData>(int Id)
         {
             try
             {
@@ -98,11 +88,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.GetSingleById", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.GetSingleById", ex);
             }
         }
-        public bool RemoveSingleByName<TData>(string cacheName)
+        public bool RemoveCachedDataSingleByName<TData>(string cacheName)
         {
             try
             {
@@ -111,11 +100,10 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.RemoveSingleByName", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.RemoveSingleByName", ex);
             }
         }
-        public bool IsExsistByName<TData>(string cacheName)
+        public bool IsExsistCachedDataByName<TData>(string cacheName)
         {
             try
             {
@@ -128,8 +116,7 @@ namespace NetCoreWithRedis.Core.CacheManager.Redis
             }
             catch (Exception ex)
             {
-                Logger.AddCacheLog(LogTypeEnum.Error, "RedisManager.IsExsistByName", ExceptionMessageHelper.UnexpectedCacheError, ex);
-                throw new KnownException(ErrorTypeEnum.CahceGeneralException, ex.Message, ex);
+                throw new KnownException(ErrorTypeEnum.CahceGeneralException, "RedisManager.IsExsistByName", ex);
             }
         }
     }

@@ -4,24 +4,24 @@ namespace NetCoreWithRedis.Shared.DTO
 {
     public class BaseDto
     {
-        [DataMember(Name = "Id")]
-        public int Id { get; set; }
+        //[DataMember(Name = "Id")]
+        public int? Id { get; set; }
 
-        [DataMember(Name = "ActivationStatus")]
+        //[DataMember(Name = "ActivationStatus")]
         public int ActivationStatus { get; set; }
     }
     public class ExtendBaseDto : BaseDto
     {
-        [DataMember(Name = "CreateDate")]
+        //[DataMember(Name = "CreateDate")]
         public long CreateDate { get; set; }
 
-        [DataMember(Name = "CreateUserId")]
+        //[DataMember(Name = "CreateUserId")]
         public int CreateUserId { get; set; }
 
-        [DataMember(Name = "UpdateDate")]
+        //[DataMember(Name = "UpdateDate")]
         public long? UpdateDate { get; set; }
 
-        [DataMember(Name = "UpdateUser")]
+        //[DataMember(Name = "UpdateUser")]
         public int? UpdateUser { get; set; }
     }
 }

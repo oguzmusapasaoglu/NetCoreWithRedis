@@ -1,9 +1,8 @@
 ﻿using Dapper.Contrib.Extensions;
-using NetCoreWithRedis.Core.CacheManager.Redis;
 using NetCoreWithRedis.Core.DbCore;
 using NetCoreWithRedis.Core.Helper.CommonHelper;
 using NetCoreWithRedis.Core.Helper.ExceptionHelper;
-using NetCoreWithRedis.Core.Log.Interface;
+using NetCoreWithRedis.Core.Log.Services;
 using NetCoreWithRedis.Domain.Authentication.Interface;
 using NetCoreWithRedis.Domain.Users.Entity;
 using NetCoreWithRedis.Domain.Users.Interface;
@@ -15,24 +14,25 @@ using ServiceStack;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using NetCoreWithRedis.Core.CacheManager.Redis;
+using NetCoreWithRedis.Core.Helper.QuerryManager;
+using System.Data;
+using NetCoreWithRedis.Shared.Entities;
 
 namespace NetCoreWithRedis.Domain.Users.Manager
 {
-    public class UserManager : IUserManager
+    public class UserManager : RedisManager, IUserManager
     {
-        private ILogService Logger;
-        private IRedisManager CacheManager;
+        private ILogManager Logger;
         private IDbFactory Db;
         private IAuthenticationManager Authentication;
 
         public UserManager(
-            ILogService logger,
-            IRedisManager cache,
+            ILogManager logger,
             IDbFactory db,
             IAuthenticationManager authentication)
         {
             Logger = logger;
-            CacheManager = cache;
             Db = db;
             Authentication = authentication;
         }
@@ -52,7 +52,7 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                     throw new RequestWarningException(ErrorTypeEnum.WarningException, ExceptionCodeHelper.CannotEmptyField, ExceptionMessageHelper.CannotEmptyField("Email"));
                 #endregion
 
-                var data = CacheManager.GetAll<UserEntity>().ToList();
+                var data = GetAllCachedData<UsersDto>().ToList();
 
                 #region Field Control
                 if (data != null)
@@ -75,13 +75,17 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                     entity.UpdateUser = RequestUserId;
                     entity.UpdateDate = DateTimeHelper.Now;
                     conn.Update(entity, Db._DbTransaction);
+                    data.RemoveAt(data.FindIndex(q => q.Id == entity.Id));
                 }
-
-                int Id = conn.Insert(entity, Db._DbTransaction).ToInt();
-                entity = conn.Get<UserEntity>(Id);
-                data.Add(entity);
-                CacheManager.FillCache(data);
-                return entity.ConvertTo<UsersDto>();
+                else
+                {
+                    int Id = conn.Insert(entity, Db._DbTransaction).ToInt();
+                    entity = conn.Get<UserEntity>(Id);
+                }
+                var result = entity.ConvertTo<UsersDto>();
+                data.Add(result);
+                FillCacheData(data);
+                return result;
             }
             catch (KnownException ex)
             {
@@ -98,8 +102,8 @@ namespace NetCoreWithRedis.Domain.Users.Manager
             try
             {
                 CheckAuthentication(RequestUserId, TokenKey);
-                var data = CacheManager.GetAll<UserEntity>().AsQueryable();
-                var predicate = PredicateBuilderHelper.True<UserEntity>();
+                var data = GetAllCachedData<UsersDto>().AsQueryable();
+                var predicate = PredicateBuilderHelper.True<UsersDto>();
                 if (request.Id.HasValue)
                     predicate = predicate.And(q => q.Id == request.Id);
                 if (request.ActivationStatus.HasValue)
@@ -111,8 +115,7 @@ namespace NetCoreWithRedis.Domain.Users.Manager
                 if (!request.EMail.IsNullOrEmpty())
                     predicate = predicate.And(q => q.EMail == request.EMail);
                 var result = data.Where(predicate).AsEnumerable();
-                var userdata = result.ConvertTo<IEnumerable<UsersDto>>();
-                var ReturnData = PageingHelper.GetPagingResult(userdata, request.PageNumber, request.PageSize);
+                var ReturnData = PageingHelper.GetPagingResult(result, request.PageNumber, request.PageSize);
                 return ReturnData;
             }
             catch (KnownException ex)
@@ -130,9 +133,9 @@ namespace NetCoreWithRedis.Domain.Users.Manager
             try
             {
                 CheckAuthentication(RequestUserId, TokenKey);
-                var data = CacheManager.GetAll<UserEntity>();
+                var data = GetAllCachedData<UsersDto>();
                 var result = data.FirstOrDefault(q => q.Id == id);
-                return result.ConvertTo<UsersDto>();
+                return result;
             }
             catch (KnownException ex)
             {
@@ -149,9 +152,17 @@ namespace NetCoreWithRedis.Domain.Users.Manager
             try
             {
                 var ReturnData = new UserLoginResponseDto();
-                var data = CacheManager.GetAll<UserEntity>();
                 var EncryptPass = PasswordHelper.EncryptData(request.Password);
-                var result = data.FirstOrDefault(q => q.UserName == request.UserName && q.Password == EncryptPass);
+
+                #region DynamicQuerryParameters
+                var list = DynamicQuerryParameters.Create();
+                list.Add(DynamicQuerryParameters.AddParameter("UserName", request.UserName, DbType.String));
+                list.Add(DynamicQuerryParameters.AddParameter("Password", EncryptPass, DbType.String));
+                list.Add(DynamicQuerryParameters.AddParameter("ActivationStatus", (int)ActivationStatusType.Active, DbType.Int16));
+                #endregion
+
+                var querry = QueryGenerator.GenerateQuery(list, QueryGenerator.tableName<UserEntity>());
+                var result = Db.GetSingleData<UserEntity>(querry);
                 if (result != null)
                 {
                     ReturnData = result.ConvertTo<UserLoginResponseDto>();

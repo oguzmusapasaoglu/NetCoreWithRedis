@@ -1,7 +1,7 @@
 ﻿using Dapper;
 using NetCoreWithRedis.Core.Helper.CommonHelper;
 using NetCoreWithRedis.Core.Helper.ExceptionHelper;
-using NetCoreWithRedis.Core.Log.Interface;
+using NetCoreWithRedis.Core.Log.Services;
 using NetCoreWithRedis.Shared.Helper;
 using System;
 using System.Collections.Generic;
@@ -15,10 +15,10 @@ namespace NetCoreWithRedis.Core.DbCore
 {
     public class DbFactory : IDbFactory
     {
-        private ILogService _logger;
+        private ILogManager _logger;
 
         public IDbTransaction _DbTransaction { get; set; }
-        public DbFactory(ILogService logger)
+        public DbFactory(ILogManager logger)
         {
             _logger = logger;
         }
@@ -27,7 +27,7 @@ namespace NetCoreWithRedis.Core.DbCore
         {
             try
             {
-                var connection = new SqlConnection(ConfigManager.GetData(ProjectConst.ConnStr));
+                var connection = new SqlConnection(ConfigManager.GetData(ConfigManagerConst.ConnStr));
                 if (connection.State == ConnectionState.Open)
                     connection.Close();
 
